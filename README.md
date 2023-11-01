@@ -17,7 +17,7 @@ This is "Taskaty App" a task management application built using Laravel framewor
 1. Clone the repository:
 
 ```shell
-git clone 
+git clone https://github.com/yassergharieb/Task_Management_App.git
 ```
 
 2. Navigate to the project directory:
