@@ -9,24 +9,29 @@ class TaskRepository implements TaskRepositoryInterface
 {
     public function create($data)
     {
-        $data['user_id'] = Auth::user()->id;
 
         return Task::create($data);
     }
 
+    public function getAllUserTasks($user_id)
+    {
+        return Task::where("user_id", $user_id)->paginate(10);
+    }
+
     public function getAll()
     {
-        return Task::where("user_id", Auth::user()->id)->paginate(10);
+       return Task::all();
     }
 
     public function get($id)
     {
-        return Task::find($id);
+
+        return Task::where('user_id' , Auth::user()->id)->find($id);
     }
 
     public function update($id, $data)
     {
-        $task = $this->get($id);
+        $task =  $this->get($id);
 
         return $task->update($data);
     }

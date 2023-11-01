@@ -1,29 +1,19 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Http\Requests\CreateTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
-use App\Repository\TaskRepositoryInterface;
+use App\Services\TaskService;
 
 class TaskController extends Controller
 {
-<<<<<<< HEAD
-
-    public function __construct (public TaskRepositoryInterface $taskRepository)
+    public function __construct (public TaskService $taskService)
     {
         
     }
-     public function index()
-=======
-    public function __construct(public TaskRepositoryInterface $taskRepository)
->>>>>>> eba4eb928bf19efe0e4f8a29645c4d02f3b6aef4
-    {
-    }
-
+    
     public function index()
     {
-        $tasks = $this->taskRepository->getAll();
+        $tasks = $this->taskService->getAll();
 
         return view('Tasks.index')->with(['tasks' => $tasks]);
     }
@@ -41,16 +31,9 @@ class TaskController extends Controller
      */
     public function store(CreateTaskRequest $request)
     {
-        $this->taskRepository->create($request->validated());
+        $this->taskService->create($request->validated());
 
         return redirect()->route('task.all')->with(['success' => "task is created successfully"]);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
     }
 
     /**
@@ -58,7 +41,7 @@ class TaskController extends Controller
      */
     public function edit(string $id)
     {
-        $task = $this->taskRepository->get($id);
+        $task = $this->taskService->get($id);
 
         return view('Tasks.edit')->with(['task' => $task]);
     }
@@ -68,8 +51,7 @@ class TaskController extends Controller
      */
     public function update(UpdateTaskRequest $request, string $id)
     {
-        $this->taskRepository->update($id, $request->validated());
-
+        $this->taskService->update($id, $request->validated());
         return redirect()->route('task.all')->with(['success' => "task is updated successfully"]);
     }
 
@@ -78,7 +60,7 @@ class TaskController extends Controller
      */
     public function destroy(string $id)
     {
-        $this->taskRepository->get($id)->delete();
+        $this->taskService->delete($id);
 
         return redirect()->route('task.all')->with(['success' => "task is deleted successfully"]);
     }
